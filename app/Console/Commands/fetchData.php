@@ -51,10 +51,11 @@ class fetchData extends Command
         $result = $client->request('GET','https://api.crex24.com/v2/public/tickers?instrument=BTC-USDT');
         $result = $result->getBody(); 
         $clients = json_decode($result, true);
+        
 
 
         foreach($clients as $client) {
-            if (  Pair::updateOrCreate(
+            if (  Pair::create(
                     ['pair' => Arr::get($clients, '0.instrument')],
                     ['price' => Arr::get($clients, '0.last')])
                 ){ echo "database updated successfully";}
