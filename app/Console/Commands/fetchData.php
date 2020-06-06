@@ -52,6 +52,7 @@ class fetchData extends Command
         $result = $result->getBody(); 
         $clients = json_decode($result, true);
 
+
         foreach($clients as $client) {
             if (  Pair::updateOrCreate(
                     ['pair' => Arr::get($clients, '0.instrument')],
