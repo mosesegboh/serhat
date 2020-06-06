@@ -1,6 +1,10 @@
 <?php
 
 namespace App\Console\Commands;
+use App\Pair;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -45,20 +49,16 @@ class fetchData extends Command
         //create the handle function for the command
         $client = new GuzzleHttp\Client();
         $result = $client->request('GET','https://api.crex24.com/v2/public/tickers?instrument=BTC-USDT');
-        return $result->getBody(); 
+        $result = $result->getBody(); 
         $clients = json_decode($result, true);
-        
 
         foreach($clients as $client) {
-            Pair::updateOrCreate([
-                'pair' => $client->instrument,
-            ],
-            [
-                
-                'pair' => $client->instrument,
-                'price' => $client->last
-            ]);
+            if (  Pair::updateOrCreate(
+                    ['pair' => Arr::get($clients, '0.instrument')],
+                    ['price' => Arr::get($clients, '0.last')])
+                ){ echo "database updated successfully";}
+            else
+                {echo "there was an error";}
         }
-
     }
 }

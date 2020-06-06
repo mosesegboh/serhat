@@ -19,5 +19,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('post','ApiController@postRequest');
-Route::get('get','ApiController@getRequest');
+
