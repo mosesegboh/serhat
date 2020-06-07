@@ -8,4 +8,5 @@ class Pair extends Model
 {
     //
     protected $fillable = [ 'pair', 'price',];
+    
 }

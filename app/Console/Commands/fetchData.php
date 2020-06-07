@@ -55,9 +55,10 @@ class fetchData extends Command
 
 
         foreach($clients as $client) {
-            if (  Pair::create(
+            if (  Pair::updateOrCreate(
                     ['pair' => Arr::get($clients, '0.instrument')],
-                    ['price' => Arr::get($clients, '0.last')])
+                    ['pair' => Arr::get($clients, '0.instrument'),
+                    'price' => Arr::get($clients, '0.last')])
                 ){ echo "database updated successfully";}
             else
                 {echo "there was an error";}
